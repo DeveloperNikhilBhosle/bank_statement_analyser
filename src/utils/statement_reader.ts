@@ -30,111 +30,133 @@ export class FileToJsonService
             
             // console.log(element,'element');
             // console.log(element.Narration,'element.Narration');
-            // console.log(parseInt(element?.['Withdrawal Amt.']));
-            if(parseInt(element?.['Withdrawal Amt.'])) // expenses
+            // console.log(withAmt);
+
+            console.log(element, 'ele');
+
+            let narrationnew = element.Narration.replace("THE HOUSE OF RARE","THE>HOUSE>OF>RARE").toLowerCase()
+            .replace("barfi wala","barfi>wala").replace("pan shop","pan>shop")
+            .replace("indrajit pal","indrajit>pal")
+            .replace("the souled store","the>souled>store").replace("radhamani exports","radhamani>exports")
+            .replace(/\//g, " ").replace("\n"," ")
+            .split(/[.\-@ ]/);
+
+            console.log(narrationnew,'narrationnew');
+            let withAmt = parseInt(element?.['Withdrawal Amt.'].replace(",",""));
+
+            console.log(withAmt, 'Amount');
+
+            if(withAmt) // expenses
             {
                 // Food
-                if(Helpers.findMatchingElements(element.Narration.toLowerCase().replace("barfi wala","barfi>wala").replace("pan shop","pan>shop").replace("indrajit pal","indrajit>pal").split(/[.\-@ ]/),[ "biryani","birayani","bakery","eatsandtreats","restaurant","pizza","juice", "dining","chinese","naturals","snacks","cake","cakes","hotel","caterers","pan>shop","barfi>wala","veg","kanifnaath","tea","cafe","zomato","swiggy","food","uber eats","doordash","grubhub","instacart","postmates","seamless","indrajit>pal"]))
+                if(Helpers.findMatchingElements(narrationnew,[ "biryani","birayani","bakery","bhel","puri","rasoi","farsan","eatsandtreats","treat","restaurant","pizza","juice", "dining","chinese","naturals","snacks","cake","cakes","hotel","caterers","pan>shop","barfi>wala","veg","kanifnaath","tea","cafe","zomato","swiggy","food","uber eats","doordash","grubhub","instacart","postmates","seamless","indrajit>pal"]))
                 {
-                    res.Food += parseInt(element?.['Withdrawal Amt.']);
+                    res.Food += withAmt;
+                    
                     // res.object.push(element);
                     
                 }else // Grocery
-                if(Helpers.findMatchingElements(element.Narration.toLowerCase().split(/[.\-@ ]/),["grocery", "dmart","supermart","market","supermarket","supermarketa"]))
+                if(Helpers.findMatchingElements(narrationnew,["grocery", "dmart","supermart","market","supermarket","supermarketa"]))
                 {
-                    res.Grocery += parseInt(element?.['Withdrawal Amt.']);
+                    res.Grocery += withAmt;
                     
                     
                 }else // Transportation
-                if(Helpers.findMatchingElements(element.Narration.toLowerCase().split(/[.\-@ ]/),["gas", "fuel","metro", "bus", "train","railway","irctc","uts","railways"]))
+                if(Helpers.findMatchingElements(narrationnew,["gas", "fuel","metro", "bus", "train","irctctourism","railway","irctc","uts","railways","petroleum","auto","mahendra"])) // PETROLEUM
                 {
-                    res.Transportation += parseInt(element?.['Withdrawal Amt.']);
+                    res.Transportation += withAmt;
+                    
                     
                     
                 }else // Entertainment 
-                if(Helpers.findMatchingElements(element.Narration.toLowerCase().split(/[.\-@ ]/),["movie", "concert","entertainmen","bookmyshow","entertainment"]))
+                if(Helpers.findMatchingElements(narrationnew,["movie", "concert","entertainmen","bookmyshow","entertainment"]))
                 {
-                    res.Entertainment += parseInt(element?.['Withdrawal Amt.']);
+                    res.Entertainment += withAmt;
                     
                 }else // Housing
-                if(Helpers.findMatchingElements(element.Narration.toLowerCase().split(/[.\-@ ]/),["rent", "mortgage", "utilities"]))
+                if(Helpers.findMatchingElements(narrationnew,["rent", "mortgage", "utilities"]))
                 {
-                    res.Housing += parseInt(element?.['Withdrawal Amt.']);
+                    res.Housing += withAmt;
                     
                     
                 }else // Insurance
-                if(Helpers.findMatchingElements(element.Narration.toLowerCase().split(/[.\-@ ]/),["insurance"]))
+                if(Helpers.findMatchingElements(narrationnew,["insurance"]))
                 {
-                    res.Insurance += parseInt(element?.['Withdrawal Amt.']);
+                    res.Insurance += withAmt;
                     
                     
                 }else // Healthcare
-                if(Helpers.findMatchingElements(element.Narration.toLowerCase().split(/[.\-@ ]/),["doctor", "medication", "hospital","chemist","druggis","medical", "wellness", "mosaic wellness"])) 
+                if(Helpers.findMatchingElements(narrationnew,["doctor", "medication", "hospital","chemist","druggis","medical", "wellness", "mosaic wellness"])) 
                 {
-                    res.Healthcare += parseInt(element?.['Withdrawal Amt.']);
+                    res.Healthcare += withAmt;
                     
                     
                 }else // Debt
-                if(Helpers.findMatchingElements(element.Narration.toLowerCase().split(/[.\-@ ]/),["loan","credit","p2p","financial","finance"]))
+                if(Helpers.findMatchingElements(narrationnew,["loan","credit","p2p","financial","finance","gst"]))
                 {
-                    res.Debt += parseInt(element?.['Withdrawal Amt.']);
+                    res.Debt += withAmt;
                     
                 }else // Investments
-                if(Helpers.findMatchingElements(element.Narration.toLowerCase().split(/[.\-@ ]/),['savings', 'investment','jar','indianclearingcorpor','zerodha','groww', 'coin','investment','mutual','fund','nationalpensionsystemtrust','pension']))
+                if(Helpers.findMatchingElements(narrationnew,['savings', 'investment','jar','indianclearingcorpor','zerodha','groww', 'coin','investment','mutual','fund','nationalpensionsystemtrust','pension']))
                 {
-                    res.Investments += parseInt(element?.['Withdrawal Amt.']);
+                    res.Investments += withAmt;
                     // console.log(element.Narration, " Investments Narration");
                     
 
                     
                 }else // Miscellaneous
-                if(Helpers.findMatchingElements(element.Narration.toLowerCase().split(/[.\-@ ]/),["misc","laundry","alteration", "other", "hair","prepaid", "dress", "salon", "grooming", "retail", "shopping", "lifestyle","londry","vodafone","idea","airtel","jio","bsnl","docomo","jiosaavn"]))
+                if(Helpers.findMatchingElements(narrationnew,["misc","laundry","alteration", "other", "hair","prepaid","beauty", "dress", "salon", "grooming", "retail", "shopping","communication","communications", "lifestyle","londry","vodafone","idea","airtel","jio","bsnl","docomo","jiosaavn","mobile","digital"]))
                 {
-                    res.Miscellaneous += parseInt(element?.['Withdrawal Amt.']);
+                    res.Miscellaneous += withAmt;
 
                     
                 }
                 else // utility
-                if(Helpers.findMatchingElements(element.Narration.toLowerCase().split(/[.\-@ ]/),['electricity', 'water', 'gas', 'utility']))
+                if(Helpers.findMatchingElements(narrationnew,['electricity', 'water', 'gas', 'utility']))
                 {
-                    res.Utility += parseInt(element?.['Withdrawal Amt.']);
+                    res.Utility += withAmt;
+                    
                 }
                 // Alcohol
-                else if(Helpers.findMatchingElements(element.Narration.toLowerCase().split(/[.\-@ ]/),["wine",'wines', "alcohol", "beer", "liquor"]))
+                else if(Helpers.findMatchingElements(narrationnew,["wine",'wines', "alcohol", "beer", "liquor"]))
                     {
-                        res.Alcohol += parseInt(element?.['Withdrawal Amt.']);
+                        res.Alcohol += withAmt;
                         
                         
                     }
                 else // Electronics
-                if(Helpers.findMatchingElements(element.Narration.toLowerCase().split(/[.\-@ ]/),['electronic','electronics']))
+                if(Helpers.findMatchingElements(narrationnew,['electronic','electronics']))
                 {
-                    res.Electronics += parseInt(element?.['Withdrawal Amt.']);
+                    res.Electronics += withAmt;
                     
                 }
                 else // Shopping .replace("THE HOUSE OF RARE","THE>HOUSE>OF>RARE").toLowerCase().replace("the souled store","the>souled>store").replace("radhamani exports","radhamani>exports").split(/[.\-@ ]/)
-                if(Helpers.findMatchingElements(element.Narration.replace("THE HOUSE OF RARE","THE>HOUSE>OF>RARE").toLowerCase().replace("the souled store","the>souled>store").replace("radhamani exports","radhamani>exports").split(/[.\-@ ]/),['amazon','trends','westside','justherbs','getketch','ketch','flipkart','zara','puma',"the>souled>store",'bewakoof','pantaloonsfashionand','myntra','tatacliq','tatacliiq','tailor','tailors','fashions','trentzudio','trent','radhamani>exports','the>house>of>rare'])) //TATACLIQ
+                if(Helpers.findMatchingElements(narrationnew,['amazon','trends','westside','novelty','justherbs','getketch','ketch','flipkart','zara','puma',"the>souled>store",'bewakoof','pantaloonsfashionand','myntra','tatacliq','tatacliiq','tailor','tailors','fashions','fashion','trentzudio','trent','radhamani>exports','the>house>of>rare','collection'])) //TATACLIQ
                 {
-                    res.Shopping += parseInt(element?.['Withdrawal Amt.']);
+                    res.Shopping += withAmt;
                     // console.log(element.Narration, " Shopping Narration");
                     
                     
-                }
+                    
+                }else // Expenses
+                if(Helpers.findMatchingElements(narrationnew,["salary","bonus","expenses","expense","tax", "tds"]))
+                    {
+                        res.Expenses += withAmt;
+                        res.object.push(element);
+                    }
                 else // Other
                 {
                     // console.log(element.Narration, " Other Narration");
-                    res.Other += parseInt(element?.['Withdrawal Amt.']);
-                    // res.object.push(element);
+                    res.Other += withAmt;
+                    //  res.object.push(element);
                     // console.log(element.Narration, " OTHR Narration");
                 }
             }else // Income
             {
                 // console.log(element,'ele')
-                if(Helpers.findMatchingElements(element.Narration.toLowerCase().split(/[.\-@ ]/),["salary", "paycheck", "interest"]))
+                if(Helpers.findMatchingElements(narrationnew,["salary", "paycheck", "interest"]))
                 {
                     res.Income += parseInt(element?.['Deposit Amt.']);
-                    
-                    
                 }
 
             }
@@ -147,6 +169,9 @@ export class FileToJsonService
                 res.payment_method.rtgs = res.payment_method.rtgs + 1;
             }else if(Helpers.checkIfStringContainsSubstrings(element?.Narration.toLowerCase(),["neft"])){
                 res.payment_method.neft = res.payment_method.neft + 1;
+                
+            }else if(Helpers.checkIfStringContainsSubstrings(element?.Narration.toLowerCase(),["pci"])){
+                res.payment_method.pci = res.payment_method.pci + 1;
                 
             }else{
                 res.payment_method.other = res.payment_method.other + 1;

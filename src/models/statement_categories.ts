@@ -1,5 +1,6 @@
 export class StatementCategories{
     Income: number = 0;
+    Expenses: number = 0;
     Housing: number = 0;
     Transportation: number = 0;
     Food: number = 0;
@@ -26,6 +27,7 @@ export class PaymentMethods{
     upi : number = 0;
     neft : number = 0;
     rtgs : number = 0;
+    pci : number = 0;
     other : number = 0;
     total : number = 0;
 }
